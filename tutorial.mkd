@@ -1,0 +1,144 @@
+OSM Mapnik Stylesheet Editing Tutorial
+======================================
+
+# Description
+
+These notes are designed to show a user how to modify a
+mapnik xml stylesheet suitable for rendering in any program
+that uses mapnik as rendering engine (e.g. nik2img, mod\_tile,
+tilelite, tilestache, etc.)
+
+The user will modify the a simplified copy of the osm.xml
+stylesheet, the base cartography for <http://openstreetmap.org>. 
+**NOTE:** This stylesheet has been updated for mapnik2 syntax
+using the `upgrade_map_xml.py` script. Please see <http://trac.mapnik.org/wiki/Mapnik2/Changes>
+for a detailed explanation of differences between mapnik 0.7.x and mapnik2.
+
+# Prerequisites
+
+This guide will utilize keyboard shortcuts for the [VIM](http://www.vim.org/) text editor.
+gVIM, VIM with a graphical interface, can be downloaded for all major operating systems.
+If VIM is not available or if you don't want to use VIM, any text editor (notepad++, emacs)
+will work fine.
+
+Additionally, keyboard commands will be listed from the perspective a linux command-line
+interface. If you prefer using a GUI to perform file operations like copy-and-paste,
+please feel free to do so.
+
+# Instructions
+
+## Clone GitHub Repository
+
+We need to grab a copy of the github [repository](https://github.com/mattmakesmaps/spring_fling-mapnik).
+**NOTE:** You'll want to grab the **HTML** link from the repository listed above. 
+
+    $ git clone git@github.com:mattmakesmaps/spring_fling-mapnik.git
+
+## Access the OSM Cartography
+
+### Copy workshop_base.xml
+
+To begin modification of the stylesheet, create a working copy of it.
+
+    $ cp /path/to/repo/spring_fling-mapnik/user_styles/workshop_base.xml your_style_name.xml
+
+### Open osm2.xml As Split-Screen
+
+Later steps in this guide will focus on extracting layer and style definitions
+from the default osm2.xml stylesheet, and placing them into our new working
+xml file. In order to facilitate easier copy-and-paste operations, we'll be
+using VIM's split-screen capabilities.
+
+If `your_style_name.xml` is not open, open it now.
+
+    $vim your_style_name.xml
+
+Open a new split-screen viewport, while also opening a directory tree allowing
+a file to be selected for editing.
+
+    :split .
+
+The top-half of the screen should now display a directory tree, while the
+bottom half should contain your copy of `your_style_name.xml`. Using the arrow keys
+navigate to `osm2.xml` and hit `ENTER` to open the file for editing. **NOTE:** You will
+need to move up one level in the directory tree to reach osm2.xml
+
+### Copying a `<Layer>` and `<Style>`
+
+Mapnik XML syntax breaks down renderable objects into two discrete parts,
+the `<Layer>` element which contains information about the which data to
+retrieve from the database, the extents of the layer, etc; and the `<Style>`
+element, which contains information on how those pieces of data should be
+rendered by mapnik. Because of this, whenever we want to render a new piece
+of data, such as a school, road, or park, we will need to ensure that we
+create both a `<Layer>` instructing mapnik on what we're rendering, as well
+as a `<Style>` which will tell mapnik how we want it to look.
+
+This example will walk through the import of the **buildings** layer from
+`osm2.xml` to our working copy of the xml file.
+
+From the split screen, perform a search for the buildings layer.
+
+    /<Layer name="buildings"
+
+Enter VISUAL mode, and yank the `<Layer>` tag and its contents,
+including nested tags.
+
+    vaty
+
+Switch to the `your_style_name.xml` file, in the bottom split-screen.
+
+    Ctrl-W j
+
+Move the cursor into a blank line above the closing `</map>` tag,
+and paste the buildings layer with the `p` key.
+
+Looking at the newly copied `<Layer>` tag, we can see that it references
+a single style, `<StyleName>buildings</StyleName>`. **NOTE:** There does
+not necessarilly need to be a one-to-one relationship between styles and
+layers. A layer can be represented by multiple styles, and a style can
+appear in multiple layers.
+
+Switch back to the `osm2.xml` stylesheet, and search for the building `<style>`.
+
+    Ctrl-W k
+    /<Style name="buildings"
+
+Yank the style
+
+    vaty
+
+Switch back to `your_style_name.xml`, and paste the style above the `<Layer>`
+element.
+
+    Ctrl-W j
+    p
+
+**NOTE:** If you need to create a newline to paste your `<style>` tag into,
+use `Shift-O` from Normal mode. This automatically force VIM to enter Insert
+mode though, so press `ESC` to exit. After your newline has been created, you
+can use `p` to paste into it.
+
+## Push to github
+
+Pull any changes from the repository
+
+    $ git pull
+
+Tell github to track `your_style_name.xml`
+
+    $ git add `your_style_name.xml`
+
+Create a commit which includes your stylesheet
+
+    $ git commit -m `your commit message goes here.'
+
+Push your stylesheet up to the repository
+
+    $ git push
+
+# Links of Interest
+
+*   [Making Sense of Mapnik - M. Migurski 2008](http://mike.teczno.com/notes/mapnik.html)
+*   [Maps from Scratch - M. Migurski 2009-2010](http://mapsfromscratch.com/)
+*   [OpenStreetMap Rendering Toolchain - Springmeyer & Ortega 2010](http://dbsgeo.com/foss4g2010/html/index.html) 

@@ -2,6 +2,7 @@ Mapnik Styles For the UW/CUGOS Spring Fling
 ===========================================
 
 **DATE:** April 19, 2011
+
 **EVENT:** UW/CUGOS [Spring Fling](http://wiki.osgeo.org/wiki/CUGOS_2011_Spring_Fling)
 
 This repository holds basic mapnik styles and notes which attendees of
