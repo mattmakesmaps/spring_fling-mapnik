@@ -925,7 +925,7 @@ Note: feel free to leave password, host, port, or use blank
     <Rule>
       <Filter>[building] = 'INT-light'</Filter>
       <MaxScaleDenominator>200000</MaxScaleDenominator>
-      <PolygonSymbolizer fill-opacity="0.7" fill="#bca9a9"/></Rule>
+      <PolygonSymbolizer fill-opacity="0.2" fill="#bca9a9"/></Rule>
     <Rule>
       <Filter>[building] != 'INT-light' and [building] != ''</Filter>
       <MaxScaleDenominator>200000</MaxScaleDenominator>
@@ -933,7 +933,7 @@ Note: feel free to leave password, host, port, or use blank
     <Rule>
       <Filter>[building] != 'INT-light' and [building] != ''</Filter>
       <MaxScaleDenominator>12500</MaxScaleDenominator>
-      <LineSymbolizer stroke="#330066" stroke-width="0.2"/></Rule>
+      <LineSymbolizer stroke="#330063" stroke-width="0.2"/></Rule>
     <Rule>
       <Filter>[aeroway] = 'terminal'</Filter>
       <MaxScaleDenominator>200000</MaxScaleDenominator>
@@ -941,7 +941,7 @@ Note: feel free to leave password, host, port, or use blank
     <Rule>
       <Filter>[aeroway] = 'terminal'</Filter>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
-      <LineSymbolizer stroke="#330066" stroke-width="0.2"/></Rule>
+      <LineSymbolizer stroke="#330066" stroke-width="0.5"/></Rule>
 </Style>
 
 <!-- Render only select building types starting at z10. -->
