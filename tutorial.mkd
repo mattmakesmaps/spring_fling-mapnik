@@ -30,7 +30,7 @@ please feel free to do so.
 ## Clone GitHub Repository
 
 We need to grab a copy of the github [repository](https://github.com/mattmakesmaps/spring_fling-mapnik).
-**NOTE:** You'll want to grab the **HTML** link from the repository listed above. 
+**NOTE:** You'll want to grab the **SSH** link from the repository listed above. 
 
     $ git clone git@github.com:mattmakesmaps/spring_fling-mapnik.git
 
@@ -75,7 +75,8 @@ create both a `<Layer>` instructing mapnik on what we're rendering, as well
 as a `<Style>` which will tell mapnik how we want it to look.
 
 This example will walk through the import of the **buildings** layer from
-`osm2.xml` to our working copy of the xml file.
+`osm2.xml` to our working copy of the xml file. Feel free to pick any other
+layer you want to render.
 
 From the split screen, perform a search for the buildings layer.
 
