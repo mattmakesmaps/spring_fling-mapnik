@@ -24,6 +24,29 @@ ls `python -c "import mapnik;print mapnik.fontscollectionpath"`-->
 <!-- Render only select building types starting at z10. -->
 <!-- Render the other building types. Some sql filtering is needed to exclude
      any type not already specifically rendered in buildings-lz. -->
+<Style name="buildings">
+    <Rule>
+      <Filter>[building] = 'INT-light'</Filter>
+      <MaxScaleDenominator>200000</MaxScaleDenominator>
+      <PolygonSymbolizer fill-opacity="0.7" fill="#bca9a9"/></Rule>
+    <Rule>
+      <Filter>[building] != 'INT-light' and [building] != ''</Filter>
+      <MaxScaleDenominator>200000</MaxScaleDenominator>
+      <PolygonSymbolizer fill-opacity="0.9" fill="#bca9a9"/></Rule>
+    <Rule>
+      <Filter>[building] != 'INT-light' and [building] != ''</Filter>
+      <MaxScaleDenominator>12500</MaxScaleDenominator>
+      <LineSymbolizer stroke="#330066" stroke-width="0.2"/></Rule>
+    <Rule>
+      <Filter>[aeroway] = 'terminal'</Filter>
+      <MaxScaleDenominator>200000</MaxScaleDenominator>
+      <PolygonSymbolizer fill="#cc99ff"/></Rule>
+    <Rule>
+      <Filter>[aeroway] = 'terminal'</Filter>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <LineSymbolizer stroke="#330066" stroke-width="0.2"/></Rule>
+</Style>
+
 
 <Style name="roads">
     <Rule>
@@ -919,32 +942,25 @@ Note: feel free to leave password, host, port, or use blank
 
     </Datasource>
 </Layer>
-
-
-<Style name="buildings">
+<Style name="buildings-lz">
     <Rule>
-      <Filter>[building] = 'INT-light'</Filter>
-      <MaxScaleDenominator>200000</MaxScaleDenominator>
-      <PolygonSymbolizer fill-opacity="0.2" fill="#FF00FF"/></Rule>
+      <Filter>[railway] = 'station' or [building] = 'station'</Filter>
+      <MaxScaleDenominator>750000</MaxScaleDenominator>
+     <PolygonSymbolizer fill="#d4aaaa"/></Rule>
     <Rule>
-      <Filter>[building] != 'INT-light' and [building] != ''</Filter>
-      <MaxScaleDenominator>200000</MaxScaleDenominator>
-      <PolygonSymbolizer fill-opacity="0.9" fill="#FF00FF"/></Rule>
+      <Filter>[building] = 'supermarket'</Filter>
+      <MaxScaleDenominator>750000</MaxScaleDenominator>
+      <PolygonSymbolizer fill-opacity="0.5" fill="pink"/></Rule>
     <Rule>
-      <Filter>[building] != 'INT-light' and [building] != ''</Filter>
-      <MaxScaleDenominator>12500</MaxScaleDenominator>
-      <LineSymbolizer stroke="#330063" stroke-width="20"/></Rule>
+      <Filter>[amenity] = 'place_of_worship'</Filter>
+      <MaxScaleDenominator>750000</MaxScaleDenominator>
+      <MinScaleDenominator>25000</MinScaleDenominator>
+      <PolygonSymbolizer fill-opacity="0.5" fill="#777"/></Rule>
     <Rule>
-      <Filter>[aeroway] = 'terminal'</Filter>
-      <MaxScaleDenominator>200000</MaxScaleDenominator>
-      <PolygonSymbolizer fill="#FF00FF"/></Rule>
-    <Rule>
-      <Filter>[aeroway] = 'terminal'</Filter>
-      <MaxScaleDenominator>50000</MaxScaleDenominator>
-      <LineSymbolizer stroke="#FF00FF" stroke-width="10"/></Rule>
+      <Filter>[amenity] = 'place_of_worship'</Filter>
+      <MaxScaleDenominator>25000</MaxScaleDenominator>
+      <PolygonSymbolizer fill-opacity="0.9" fill="#aaa"/><LineSymbolizer stroke="#111" stroke-width="0.3"/></Rule>
 </Style>
-
-<!-- Render only select building types starting at z10. -->
 <Layer name="buildings-lz" status="on" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
     <StyleName>buildings-lz</StyleName>
     <Datasource>
@@ -975,4 +991,35 @@ Note: feel free to leave password, host, port, or use blank
 
     </Datasource>
 </Layer>
+<Layer name="buildings-lz" status="on" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
+    <StyleName>buildings-lz</StyleName>
+    <Datasource>
+      <Parameter name="table">
+      (select way,building,railway,amenity from planet_osm_polygon
+       where railway='station'
+          or building in ('station','supermarket')
+          or amenity='place_of_worship'
+       order by z_order,way_area desc) as buildings
+      </Parameter>
+      <!--
+Settings for your postgres setup.
+
+Note: feel free to leave password, host, port, or use blank
+-->
+
+<Parameter name="type">postgis</Parameter>
+<Parameter name="password">gis</Parameter>
+<Parameter name="host">localhost</Parameter>
+<Parameter name="port">5432</Parameter>
+<Parameter name="user">cugos</Parameter>
+<Parameter name="dbname">planet0304</Parameter>
+<!-- this should be 'false' if you are manually providing the 'extent' -->
+<Parameter name="estimate_extent">false</Parameter>
+<!-- manually provided extent in epsg 900913 for whole globe -->
+<!-- providing this speeds up Mapnik database queries -->
+<Parameter name="extent">-20037508,-19929239,20037508,19929239</Parameter>
+
+    </Datasource>
+</Layer>
+
 </Map>
