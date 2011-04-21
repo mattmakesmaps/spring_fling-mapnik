@@ -1,5 +1,7 @@
 <!DOCTYPE Map>
-<Map srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" minimum-version="0.7.1" background-color="#b5d0d0">
+<Map srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over" minimum-version="0.7.1"
+
+background-color="orange">
   <!--Settings for Mapnik Fonts
 Uncomment the unifont entries if you have that font installed
 in your mapnik fonts dir, and want to use it as a fallback font.
@@ -24,6 +26,28 @@ ls `python -c "import mapnik;print mapnik.fontscollectionpath"`-->
 <!-- Render only select building types starting at z10. -->
 <!-- Render the other building types. Some sql filtering is needed to exclude
      any type not already specifically rendered in buildings-lz. -->
+<Style name="buildings">
+    <Rule>
+      <Filter>[building] = 'INT-light'</Filter>
+      <MaxScaleDenominator>200000</MaxScaleDenominator>
+      <PolygonSymbolizer fill-opacity="0.7" fill="#bca9a9"/></Rule>
+    <Rule>
+      <Filter>[building] != 'INT-light' and [building] != ''</Filter>
+      <MaxScaleDenominator>200000</MaxScaleDenominator>
+      <PolygonSymbolizer fill-opacity="0.9" fill="#bca9a9"/></Rule>
+    <Rule>
+      <Filter>[building] != 'INT-light' and [building] != ''</Filter>
+      <MaxScaleDenominator>12500</MaxScaleDenominator>
+      <LineSymbolizer stroke="#330066" stroke-width="0.2"/></Rule>
+    <Rule>
+      <Filter>[aeroway] = 'terminal'</Filter>
+      <MaxScaleDenominator>200000</MaxScaleDenominator>
+      <PolygonSymbolizer fill="#cc99ff"/></Rule>
+    <Rule>
+      <Filter>[aeroway] = 'terminal'</Filter>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <LineSymbolizer stroke="#330066" stroke-width="0.2"/></Rule>
+</Style>
 
 <Style name="roads">
     <Rule>
@@ -920,39 +944,21 @@ Note: feel free to leave password, host, port, or use blank
     </Datasource>
 </Layer>
 
-
-<Style name="buildings">
-    <Rule>
-      <Filter>[building] = 'INT-light'</Filter>
-      <MaxScaleDenominator>200000</MaxScaleDenominator>
-      <PolygonSymbolizer fill-opacity="0.2" fill="#FF00FF"/></Rule>
-    <Rule>
-      <Filter>[building] != 'INT-light' and [building] != ''</Filter>
-      <MaxScaleDenominator>200000</MaxScaleDenominator>
-      <PolygonSymbolizer fill-opacity="0.9" fill="#FF00FF"/></Rule>
-    <Rule>
-      <Filter>[building] != 'INT-light' and [building] != ''</Filter>
-      <MaxScaleDenominator>12500</MaxScaleDenominator>
-      <LineSymbolizer stroke="#330063" stroke-width="20"/></Rule>
-    <Rule>
-      <Filter>[aeroway] = 'terminal'</Filter>
-      <MaxScaleDenominator>200000</MaxScaleDenominator>
-      <PolygonSymbolizer fill="#FF00FF"/></Rule>
-    <Rule>
-      <Filter>[aeroway] = 'terminal'</Filter>
-      <MaxScaleDenominator>50000</MaxScaleDenominator>
-      <LineSymbolizer stroke="#FF00FF" stroke-width="10"/></Rule>
-</Style>
-
-<!-- Render only select building types starting at z10. -->
-<Layer name="buildings-lz" status="on" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
-    <StyleName>buildings-lz</StyleName>
+<Layer name="buildings" status="on" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
+    <StyleName>buildings</StyleName>
     <Datasource>
       <Parameter name="table">
-      (select way,building,railway,amenity from planet_osm_polygon
-       where railway='station'
-          or building in ('station','supermarket')
-          or amenity='place_of_worship'
+      (select way,aeroway,
+        case
+         when building in ('residential','house','garage','garages') then 'INT-light'::text
+         else building
+        end as building
+       from planet_osm_polygon
+       where (building is not null
+         and building not in ('no','station','supermarket')
+         and (railway is null or railway != 'station')
+         and (amenity is null or amenity != 'place_of_worship'))
+          or aeroway = 'terminal'
        order by z_order,way_area desc) as buildings
       </Parameter>
       <!--
@@ -975,4 +981,5 @@ Note: feel free to leave password, host, port, or use blank
 
     </Datasource>
 </Layer>
+
 </Map>
