@@ -52,54 +52,54 @@ ls `python -c "import mapnik;print mapnik.fontscollectionpath"`-->
       <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
       <MaxScaleDenominator>25000000</MaxScaleDenominator>
       <MinScaleDenominator>6500000</MinScaleDenominator>
-      <LineSymbolizer stroke="#809bc0" stroke-width="0.5"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="0.5"/></Rule>
     <Rule>
       <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
       <MaxScaleDenominator>6500000</MaxScaleDenominator>
       <MinScaleDenominator>1500000</MinScaleDenominator>
-      <LineSymbolizer stroke="#809bc0" stroke-width="1"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="1"/></Rule>
 <Rule>
       <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
       <MaxScaleDenominator>1500000</MaxScaleDenominator>
       <MinScaleDenominator>750000</MinScaleDenominator>
-      <LineSymbolizer stroke="#809bc0" stroke-width="1.4"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="1.4"/></Rule>
    <Rule>
      <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
       <MaxScaleDenominator>750000</MaxScaleDenominator>
       <MinScaleDenominator>400000</MinScaleDenominator>
-      <LineSymbolizer stroke="#809bc0" stroke-width="2"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="2"/></Rule>
    <Rule>
      <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
       <MaxScaleDenominator>400000</MaxScaleDenominator>
       <MinScaleDenominator>200000</MinScaleDenominator>
-      <LineSymbolizer stroke="#809bc0" stroke-width="2.5"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="2.5"/></Rule>
     <!-- TRUNK -->
     <Rule>
       <Filter>[highway] = 'trunk' or [highway] = 'trunk_link'</Filter>
       <MaxScaleDenominator>25000000</MaxScaleDenominator>
       <MinScaleDenominator>6500000</MinScaleDenominator>
-      <LineSymbolizer stroke="#a9dba9" stroke-width="0.4"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="0.4"/></Rule>
    <Rule>
       <Filter>[highway] = 'trunk' or [highway] = 'trunk_link'</Filter>
       <MaxScaleDenominator>6500000</MaxScaleDenominator>
       <MinScaleDenominator>1500000</MinScaleDenominator>
-      <LineSymbolizer stroke="#97d397" stroke-width="1"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="1"/></Rule>
     <Rule>
       <Filter>[highway] = 'trunk' or [highway] = 'trunk_link'</Filter>
       <MaxScaleDenominator>1500000</MaxScaleDenominator>
       <MinScaleDenominator>400000</MinScaleDenominator>
-      <LineSymbolizer stroke="#97d397" stroke-width="2"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="2"/></Rule>
     <Rule>
       <Filter>[highway] = 'trunk' or [highway] = 'trunk_link'</Filter>
       <MaxScaleDenominator>400000</MaxScaleDenominator>
       <MinScaleDenominator>200000</MinScaleDenominator>
-      <LineSymbolizer stroke="#97d397" stroke-width="2.5"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="2.5"/></Rule>
    <!-- PRIMARY-->
    <Rule>
       <Filter>[highway] = 'primary' or [highway] = 'primary_link'</Filter>
       <MaxScaleDenominator>6500000</MaxScaleDenominator>
       <MinScaleDenominator>1500000</MinScaleDenominator>
-      <LineSymbolizer stroke="#ec989a" stroke-width="0.5"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="0.5"/></Rule>
     <Rule>
       <Filter>[highway] = 'primary' or [highway] = 'primary_link'</Filter>
       <MaxScaleDenominator>1500000</MaxScaleDenominator>
@@ -109,12 +109,12 @@ ls `python -c "import mapnik;print mapnik.fontscollectionpath"`-->
       <Filter>[highway] = 'primary' or [highway] = 'primary_link'</Filter>
       <MaxScaleDenominator>750000</MaxScaleDenominator>
       <MinScaleDenominator>400000</MinScaleDenominator>
-      <LineSymbolizer stroke="#ec989a" stroke-width="2"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="2"/></Rule>
     <Rule>
       <Filter>[highway] = 'primary' or [highway] = 'primary_link'</Filter>
       <MaxScaleDenominator>400000</MaxScaleDenominator>
       <MinScaleDenominator>200000</MinScaleDenominator>
-      <LineSymbolizer stroke="#ec989a" stroke-width="2.5"/></Rule>
+      <LineSymbolizer stroke="#FF0000" stroke-width="2.5"/></Rule>
     <!-- SECONDARY -->
     <Rule>
       <Filter>[highway] = 'secondary' or [highway] = 'secondary_link'</Filter>
@@ -998,6 +998,8 @@ Note: feel free to leave password, host, port, or use blank
       </Parameter>
       <!--
 Settings for your postgres setup.
+
+
 
 Note: feel free to leave password, host, port, or use blank
 -->
